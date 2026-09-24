@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Rishabh Saraf, Senior AI Engineer at TII Abu Dhabi working on the Falcon LLMs and Falcon-Audio.">
+<title>Rishabh Saraf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #ffffff;
+    --ink: #111111;
+    --muted: #4b5058;
+    --faint: #7c828c;
+    --rule: #111111;
+    --hair: #e6e6e6;
+    --sky: #bfe0ff;
+    --lemon: #fff0a0;
+    --lilac: #e2d6ff;
+    --peach: #ffd3bb;
+    --blue: #1747d6;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: "IBM Plex Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 400 17px/1.65 var(--sans); -webkit-font-smoothing: antialiased;
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+  .hl { background: var(--c, var(--sky)); padding: 0 .18em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+  /* ---------- Top bar ---------- */
+  .bar {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: rgba(255,255,255,.94);
+    backdrop-filter: blur(6px); border-bottom: 2px solid var(--ink);
+  }
+  .bar-in { max-width: 1120px; margin: 0 auto; padding-inline: 24px; display: flex; align-items: center; gap: 28px; height: 64px; }
+  .logo { font: 800 18px/1 var(--mono); color: var(--ink); letter-spacing: -.02em; display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+  .logo:hover { text-decoration: none; }
+  .logo .box { background: var(--ink); color: #fff; padding: 7px 8px; }
+  .logo .cur { width: 10px; height: 3px; background: var(--ink); align-self: flex-end; margin: 0 0 4px 3px; animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .tabs-wrap { margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+  .tabs-wrap::-webkit-scrollbar { display: none; }
+  .tabs { display: flex; gap: 4px; white-space: nowrap; }
+  .tabs a {
+    font: 600 13px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink);
+    padding: 9px 11px; border: 1.5px solid transparent;
+  }
+  .tabs a:hover { text-decoration: none; border-color: var(--ink); }
+  .tabs a[aria-current="page"] { background: var(--c, var(--sky)); border-color: var(--ink); }
+
+  main { flex: 1; width: 100%; max-width: 1120px; margin: 0 auto; padding-inline: 24px; padding-block: 56px 88px; }
+  .page[hidden] { display: none !important; }
+
+  /* ---------- Home ---------- */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr); gap: 56px; align-items: center; }
+  .name { font: 800 clamp(34px, 5.4vw, 60px)/1 var(--mono); letter-spacing: -.03em; margin: 0; display: inline-block; background: var(--sky); padding: 10px 14px; border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); }
+  .headline { font: 800 clamp(22px, 3vw, 32px)/1.2 var(--mono); text-transform: uppercase; letter-spacing: -.01em; margin: 34px 0 18px; text-wrap: balance; }
+  .intro { color: var(--muted); max-width: 60ch; margin: 0; font-size: 17.5px; }
+  .intro b { color: var(--ink); font-weight: 600; }
+  .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; font: 700 14px/1 var(--mono); letter-spacing: .02em;
+    padding: 14px 18px; border: 2px solid var(--ink); color: var(--ink); background: #fff;
+    box-shadow: 4px 4px 0 var(--ink); transition: transform .12s, box-shadow .12s;
+  }
+  .btn:hover { text-decoration: none; transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+  .btn.dark { background: var(--ink); color: #fff; box-shadow: 4px 4px 0 var(--peach); border-color: var(--ink); }
+  .btn.dark:hover { box-shadow: 2px 2px 0 var(--peach); }
+  .btn .ic { font-size: 16px; }
+
+  .photo-wrap { position: relative; justify-self: center; width: 100%; max-width: 340px; }
+  .photo {
+    position: relative; aspect-ratio: 1; width: 100%; max-width: 100%; border: 2px solid var(--ink);
+    box-shadow: 10px 10px 0 var(--lilac), 10px 10px 0 2px var(--ink); background: var(--lemon); overflow: hidden;
+    transform: rotate(-2deg);
+  }
+  .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo .mono { position: absolute; inset: 0; display: grid; place-items: center; font: 800 88px/1 var(--mono); letter-spacing: -.04em; }
+  .photo img + .mono { display: none; }
+  .photo.noimg img { display: none; } .photo.noimg .mono { display: grid; }
+  .where { font: 500 13px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; margin-top: 26px; text-align: center; color: var(--muted); }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 76px; border: 2px solid var(--ink); }
+  .stat { padding: 22px 20px; border-right: 2px solid var(--ink); }
+  .stat:last-child { border-right: 0; }
+  .stat .n { font: 800 34px/1 var(--mono); letter-spacing: -.03em; display: inline-block; background: var(--c); padding: 4px 6px; }
+  .stat .l { font-size: 14.5px; color: var(--muted); margin-top: 12px; line-height: 1.45; }
+
+  .sec-label { font: 700 13px/1 var(--mono); text-transform: uppercase; letter-spacing: .1em; margin: 72px 0 20px; display: flex; align-items: center; gap: 14px; }
+  .sec-label::after { content: ""; flex: 1; height: 2px; background: var(--ink); }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .card {
+    display: flex; flex-direction: column; gap: 10px; padding: 20px; border: 2px solid var(--ink); color: var(--ink);
+    background: #fff; box-shadow: 5px 5px 0 var(--c); transition: transform .12s, box-shadow .12s;
+  }
+  a.card:hover { text-decoration: none; transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--c); }
+  .card .kind { font: 700 11.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .1em; align-self: flex-start; background: var(--c); padding: 5px 7px; border: 1.5px solid var(--ink); }
+  .card h3 { font: 600 17.5px/1.35 var(--sans); margin: 0; }
+  .card p { margin: 0; font-size: 15px; color: var(--muted); line-height: 1.55; }
+  .card .go { margin-top: auto; font: 600 13px/1 var(--mono); color: var(--blue); padding-top: 6px; }
+
+  /* ---------- Inner pages ---------- */
+  .ph { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 24px; margin-bottom: 44px; }
+  .ph h1 { font: 800 clamp(30px, 4.4vw, 44px)/1.05 var(--mono); text-transform: uppercase; letter-spacing: -.03em; margin: 0; display: inline-block; background: var(--c); padding: 8px 12px; border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); }
+  .ph p { margin: 0; color: var(--muted); font: 500 14px/1.5 var(--mono); }
+
+  .timeline { position: relative; display: grid; gap: 30px; padding-left: 34px; }
+  .timeline::before { content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; background: var(--ink); }
+  .job { position: relative; border: 2px solid var(--ink); padding: 22px 24px; box-shadow: 6px 6px 0 var(--c); background: #fff; }
+  .job::before { content: ""; position: absolute; left: -34px; top: 26px; width: 18px; height: 18px; background: var(--c); border: 2px solid var(--ink); }
+  .job-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; }
+  .job h2 { font: 700 20px/1.3 var(--sans); margin: 0; }
+  .job h2 a, .edu h2 a, .honors .t b a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-color: var(--c, var(--sky)); }
+  .job h2 a:hover, .edu h2 a:hover, .honors .t b a:hover { background: var(--c, var(--sky)); }
+  .job h2 a::after, .edu h2 a::after { content: " ↗"; font-size: .7em; color: var(--faint); }
+  .job .role { font: 500 14.5px/1.5 var(--mono); color: var(--muted); margin: 4px 0 0; }
+  .job .when { font: 700 13px/1.6 var(--mono); white-space: nowrap; text-align: right; }
+  .job .loc { font: 400 13px/1.6 var(--mono); color: var(--faint); text-align: right; }
+  .job ul { margin: 16px 0 0; padding-left: 20px; display: grid; gap: 7px; }
+  .job li::marker { content: "▸  "; color: var(--ink); font-size: 13px; }
+  .job p.d { margin: 14px 0 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .tag { font: 500 12.5px/1 var(--mono); padding: 6px 8px; border: 1.5px solid var(--ink); background: #fff; }
+
+  .pubs { display: grid; gap: 24px; }
+  .pub { display: grid; grid-template-columns: 120px 1fr; border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--c); }
+  .pub .v { background: var(--c); border-right: 2px solid var(--ink); padding: 18px 14px; font: 800 18px/1.1 var(--mono); letter-spacing: -.02em; display: flex; flex-direction: column; gap: 6px; }
+  .pub .v span { font: 500 13px/1 var(--mono); }
+  .pub .b { padding: 18px 22px; }
+  .pub h2 { font: 600 18.5px/1.4 var(--sans); margin: 0; text-wrap: pretty; }
+  .pub h2 a { color: var(--ink); }
+  .pub .au { margin: 6px 0 0; color: var(--muted); font-size: 15.5px; }
+  .pub .au b { color: var(--ink); font-weight: 600; }
+  .pub .links { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .pub .links a { font: 600 12.5px/1 var(--mono); color: var(--ink); border: 1.5px solid var(--ink); padding: 6px 9px; }
+  .pub .links a:hover { background: var(--ink); color: #fff; text-decoration: none; }
+  .pub .links span { font: 400 12.5px/2.1 var(--mono); color: var(--faint); }
+
+  .skill-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .sk { border: 2px solid var(--ink); padding: 20px 22px; box-shadow: 6px 6px 0 var(--c); }
+  .sk h2 { font: 800 15px/1 var(--mono); text-transform: uppercase; letter-spacing: .04em; margin: 0 0 14px; }
+  .sk .tags { margin-top: 0; }
+  .sk .tag { background: color-mix(in srgb, var(--c) 45%, #fff); }
+  .repos { display: grid; gap: 0; border: 2px solid var(--ink); }
+  .repo { display: grid; grid-template-columns: 1fr auto; gap: 4px 18px; padding: 16px 20px; border-bottom: 2px solid var(--ink); color: var(--ink); }
+  .repo:last-child { border-bottom: 0; }
+  .repo:hover { background: var(--lemon); text-decoration: none; }
+  .repo .rn { font: 700 15px/1.4 var(--mono); }
+  .repo .rl { font: 500 12.5px/1.8 var(--mono); color: var(--muted); }
+  .repo .rd { grid-column: 1 / -1; margin: 0; font-size: 15px; color: var(--muted); }
+
+  .edu { border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--c); display: grid; grid-template-columns: 1fr auto; }
+  .edu .l { padding: 24px 26px; }
+  .edu h2 { font: 700 21px/1.3 var(--sans); margin: 0; }
+  .edu .deg { font: 500 14.5px/1.5 var(--mono); color: var(--muted); margin: 6px 0 0; }
+  .edu ul { margin: 16px 0 0; padding-left: 20px; display: grid; gap: 6px; }
+  .edu .r { border-left: 2px solid var(--ink); background: var(--c); padding: 24px 26px; display: grid; align-content: center; text-align: center; min-width: 190px; }
+  .edu .gpa { font: 800 44px/1 var(--mono); letter-spacing: -.04em; }
+  .edu .gpa small { font-size: 18px; }
+  .edu .cap { font: 600 12px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; margin-top: 8px; }
+
+  .honors { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .honors li { display: grid; grid-template-columns: 120px 1fr; border: 2px solid var(--ink); }
+  .honors .y { background: var(--c); border-right: 2px solid var(--ink); font: 800 15px/1 var(--mono); padding: 18px 14px; display: flex; align-items: center; }
+  .honors .t { padding: 14px 20px; }
+  .honors .t b { font-weight: 600; }
+  .honors .t span { display: block; color: var(--muted); font-size: 15px; }
+
+  /* ---------- Footer ---------- */
+  footer { background: var(--ink); color: #fff; }
+  .foot { max-width: 1120px; margin: 0 auto; padding-inline: 24px; padding-block: 36px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; }
+  .foot .fl { display: flex; flex-wrap: wrap; gap: 10px; }
+  .foot a { font: 600 13px/1 var(--mono); color: #fff; border: 1.5px solid #fff; padding: 10px 13px; display: inline-flex; align-items: center; gap: 8px; }
+  .foot a:hover { background: var(--sky); color: var(--ink); border-color: var(--sky); text-decoration: none; }
+  .foot svg { width: 16px; height: 16px; }
+  .foot .mail { font: 500 14px/1.4 var(--mono); color: #d9dbe0; user-select: all; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 44px; }
+    .photo-wrap { max-width: 260px; justify-self: start; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(2) { border-right: 0; }
+    .stat:nth-child(-n+2) { border-bottom: 2px solid var(--ink); }
+    .cards { grid-template-columns: 1fr; }
+    .skill-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .bar-in { flex-wrap: wrap; height: auto; padding-inline: 16px; padding-block: 12px 8px; gap: 10px; }
+    .tabs-wrap { margin-left: 0; width: 100%; }
+    main { padding-inline: 16px; padding-block: 36px 64px; }
+    .name { box-shadow: 4px 4px 0 var(--ink); }
+    .stat .n { font-size: 28px; }
+    .timeline { padding-left: 26px; }
+    .timeline::before { left: 5px; }
+    .job { padding: 18px; }
+    .job::before { left: -26px; width: 14px; height: 14px; }
+    .job .when, .job .loc { text-align: left; }
+    .pub { grid-template-columns: 1fr; }
+    .pub .v { border-right: 0; border-bottom: 2px solid var(--ink); flex-direction: row; align-items: baseline; gap: 10px; padding: 12px 18px; }
+    .pub .b { padding: 16px 18px; }
+    .edu { grid-template-columns: 1fr; }
+    .edu .r { border-left: 0; border-top: 2px solid var(--ink); }
+    .honors li { grid-template-columns: 1fr; }
+    .honors .y { border-right: 0; border-bottom: 2px solid var(--ink); padding: 10px 16px; }
+    .foot { padding-inline: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo .cur { animation: none; }
+    .btn, .card { transition: none; }
+  }
+</style>
+
+</head>
+<body>
+<header class="bar">
+  <div class="bar-in">
+    <a class="logo" href="#home" data-tab="home" aria-label="Rishabh Saraf, home"><span class="box">RS</span><span class="cur"></span></a>
+    <div class="tabs-wrap">
+      <nav class="tabs" aria-label="Pages">
+        <a href="#home" data-tab="home" style="--c: var(--sky)">Home</a>
+        <a href="#experience" data-tab="experience" style="--c: var(--lemon)">Experience</a>
+        <a href="#publications" data-tab="publications" style="--c: var(--lilac)">Publications</a>
+        <a href="#skills" data-tab="skills" style="--c: var(--peach)">Skills</a>
+        <a href="#education" data-tab="education" style="--c: var(--sky)">Education</a>
+        <a href="#honors" data-tab="honors" style="--c: var(--lemon)">Honors</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section class="page" data-page="home">
+    <div class="hero">
+      <div>
+        <h1 class="name">RISHABH SARAF</h1>
+        <p class="headline">Senior AI Engineer</p>
+        <p class="intro">I work on the <a href="https://huggingface.co/blog/falcon3" target="_blank" rel="noopener">Falcon LLMs</a> and Falcon-Audio at the <a href="https://www.tii.ae/" target="_blank" rel="noopener">Technology Innovation Institute (TII)</a> in Abu Dhabi. Before that, I worked on search and NLP at <a href="https://www.swiggy.com/" target="_blank" rel="noopener">Swiggy</a> and <a href="https://rit.rakuten.com/" target="_blank" rel="noopener">Rakuten</a>.</p>
+        <div class="actions">
+          <a class="btn dark" href="mailto:rishabhsaraf.iit@gmail.com"><span>Get in touch</span><span class="ic">↗</span></a>
+        </div>
+      </div>
+      <div class="photo-wrap">
+        <div class="photo" id="photo">
+          <img src="photo.jpg" alt="Rishabh Saraf" width="340" height="340" onerror="this.parentNode.classList.add('noimg')">
+          <span class="mono" aria-hidden="true">RS</span>
+        </div>
+        <div class="where">📍 Abu Dhabi, UAE</div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat" style="--c: var(--sky)"><div class="n">6+</div><div class="l">years working in machine learning</div></div>
+      <div class="stat" style="--c: var(--lemon)"><div class="n">3</div><div class="l">internships, at <a href="https://www.nus.edu.sg/" target="_blank" rel="noopener">NUS</a>, the <a href="https://umanitoba.ca/" target="_blank" rel="noopener">University of Manitoba</a> and <a href="https://www.ibm.com/in-en" target="_blank" rel="noopener">IBM</a></div></div>
+      <div class="stat" style="--c: var(--lilac)"><div class="n">2</div><div class="l">papers, at IEEE ASRU 2025 and IEEE TPAMI</div></div>
+      <div class="stat" style="--c: var(--peach)"><div class="n">2</div><div class="l">US patents on entity resolution, from IBM</div></div>
+    </div>
+
+    <div class="sec-label">Selected work</div>
+    <div class="cards">
+      <a class="card" style="--c: var(--lilac)" href="https://arxiv.org/abs/2509.07526" target="_blank" rel="noopener">
+        <span class="kind">Paper · ASRU 2025</span>
+        <h3>Competitive Audio-Language Models with Data-Efficient Single-Stage Training on Public Data</h3>
+        <p>Training audio-language models in a single stage using only public data.</p>
+        <span class="go">Read on arXiv →</span>
+      </a>
+      <a class="card" style="--c: var(--peach)" href="https://github.com/rishabh2301/triton-llm-kernels" target="_blank" rel="noopener">
+        <span class="kind">Code · Triton</span>
+        <h3>triton-llm-kernels</h3>
+        <p>RMSNorm and SwiGLU kernels in Triton, forward and backward.</p>
+        <span class="go">View on GitHub →</span>
+      </a>
+      <a class="card" style="--c: var(--sky)" href="https://doi.org/10.1109/TPAMI.2022.3218596" target="_blank" rel="noopener">
+        <span class="kind">Paper · TPAMI 2022</span>
+        <h3>Transferring Knowledge from Text to Video: Zero-Shot Anticipation for Procedural Actions</h3>
+        <p>Video captioning and step segmentation work from my research internship at NUS.</p>
+        <span class="go">Read the paper →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="page" data-page="experience" hidden style="--c: var(--lemon)">
+    <div class="ph"><h1>Experience</h1><p>// industry and research, newest first</p></div>
+    <div class="timeline">
+      <article class="job" style="--c: var(--sky)">
+        <div class="job-head">
+          <div><h2><a href="https://www.tii.ae/" target="_blank" rel="noopener">Technology Innovation Institute</a></h2><p class="role">Senior AI Engineer</p></div>
+          <div><div class="when">APR 2024 → NOW</div><div class="loc">Abu Dhabi, UAE</div></div>
+        </div>
+        <ul>
+          <li>Working on pretraining for the <a href="https://huggingface.co/blog/falcon3" target="_blank" rel="noopener">Falcon LLMs</a> on multi-node GPU clusters.</li>
+          <li>Writing custom Triton kernels for core transformer layers to speed up training.</li>
+          <li>Working on Falcon-Audio, an audio-language model for speech, music and sound understanding, published at <a href="https://arxiv.org/abs/2509.07526" target="_blank" rel="noopener">ASRU 2025</a>.</li>
+        </ul>
+        <div class="tags"><span class="tag">PyTorch</span><span class="tag">Triton</span><span class="tag">Distributed training</span><span class="tag">Audio-language models</span></div>
+      </article>
+      <article class="job" style="--c: var(--peach)">
+        <div class="job-head">
+          <div><h2><a href="https://www.swiggy.com/" target="_blank" rel="noopener">Swiggy</a></h2><p class="role">Data Scientist II · Search</p></div>
+          <div><div class="when">JUL 2022 → APR 2024</div><div class="loc">Bangalore, India</div></div>
+        </div>
+        <ul>
+          <li>Owned real-time ML systems for Swiggy's search, from modelling to production monitoring, measured on NDCG, CTR and search-to-order.</li>
+          <li>Shipped a query intent classification and disambiguation model, a pairwise ranking model for dishes and restaurants, and a Siamese retrieval model.</li>
+          <li>Recognised with the Most Valuable Player Award.</li>
+        </ul>
+        <div class="tags"><span class="tag">TensorFlow Serving</span><span class="tag">Learning to rank</span><span class="tag">Embeddings</span><span class="tag">A/B testing</span></div>
+      </article>
+      <article class="job" style="--c: var(--lilac)">
+        <div class="job-head">
+          <div><h2><a href="https://rit.rakuten.com/" target="_blank" rel="noopener">Rakuten Institute of Technology</a></h2><p class="role">Data Scientist II · R&amp;D</p></div>
+          <div><div class="when">NOV 2020 → JUL 2022</div><div class="loc">Bangalore, India</div></div>
+        </div>
+        <ul>
+          <li>Built an NLU query-matching system that maps customer-support questions to FAQs.</li>
+          <li>Implemented Non-negative Discriminative Feature Selection, a manifold-learning approach to unsupervised feature selection.</li>
+          <li>Fine-tuned BERT and RoBERTa for document and user embeddings in personalised email marketing, at 165 million data points.</li>
+        </ul>
+        <div class="tags"><span class="tag">BERT</span><span class="tag">RoBERTa</span><span class="tag">NLU</span><span class="tag">PySpark</span></div>
+      </article>
+      <article class="job" style="--c: var(--lemon)">
+        <div class="job-head">
+          <div><h2><a href="https://www.ibm.com/in-en" target="_blank" rel="noopener">IBM India Software Labs</a></h2><p class="role">Data Science Intern · Data and AI</p></div>
+          <div><div class="when">JAN 2020 → JUL 2020</div><div class="loc">Bangalore, India</div></div>
+        </div>
+        <p class="d">Built a pair-analysis micro-service for IBM InfoSphere Master Data Management that samples misclassified record pairs, shipped as Dockerised REST APIs.</p>
+      </article>
+      <article class="job" style="--c: var(--sky)">
+        <div class="job-head">
+          <div><h2><a href="https://www.nus.edu.sg/" target="_blank" rel="noopener">National University of Singapore</a></h2><p class="role">Research Intern</p></div>
+          <div><div class="when">MAY 2019 → JUL 2019</div><div class="loc">Singapore</div></div>
+        </div>
+        <p class="d">Video captioning (ResNet-50, I3D) and weakly supervised step segmentation (NN-Viterbi) on instructional cooking videos, contributing to an IEEE TPAMI 2022 paper. <a href="https://github.com/rishabh2301/tasty-procedural-video" target="_blank" rel="noopener">Code →</a></p>
+      </article>
+      <article class="job" style="--c: var(--peach)">
+        <div class="job-head">
+          <div><h2><a href="https://umanitoba.ca/" target="_blank" rel="noopener">University of Manitoba</a></h2><p class="role">Mitacs Globalink Research Intern</p></div>
+          <div><div class="when">MAY 2018 → JUL 2018</div><div class="loc">Winnipeg, Canada</div></div>
+        </div>
+        <p class="d">Multilevel multiple imputation on longitudinal data, preserving within-group correlation for linear mixed-effects models. <a href="https://github.com/rishabh2301/multilevel-imputation-school-wellbeing" target="_blank" rel="noopener">Code →</a></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section class="page" data-page="publications" hidden style="--c: var(--lilac)">
+    <div class="ph"><h1>Publications</h1><p>// papers and patents · <a href="https://scholar.google.com/citations?user=HRHD7_EAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a></p></div>
+    <div class="pubs">
+      <article class="pub" style="--c: var(--lilac)">
+        <div class="v">ASRU<span>2025</span></div>
+        <div class="b">
+          <h2><a href="https://arxiv.org/abs/2509.07526" target="_blank" rel="noopener">Competitive Audio-Language Models with Data-Efficient Single-Stage Training on Public Data</a></h2>
+          <p class="au">Gokul Karthik Kumar, <b>Rishabh Saraf</b>, Ludovick Lepauloux, Abdul Muneer, Billel Mokeddem, Hakim Hacid</p>
+          <div class="links"><a href="https://arxiv.org/abs/2509.07526" target="_blank" rel="noopener">arXiv</a><span>IEEE ASRU · Dec 2025</span></div>
+        </div>
+      </article>
+      <article class="pub" style="--c: var(--sky)">
+        <div class="v">TPAMI<span>2022</span></div>
+        <div class="b">
+          <h2><a href="https://doi.org/10.1109/TPAMI.2022.3218596" target="_blank" rel="noopener">Transferring Knowledge from Text to Video: Zero-Shot Anticipation for Procedural Actions</a></h2>
+          <p class="au">Fadime Sener, <b>Rishabh Saraf</b>, Angela Yao</p>
+          <div class="links"><a href="https://doi.org/10.1109/TPAMI.2022.3218596" target="_blank" rel="noopener">IEEE</a><a href="https://arxiv.org/abs/2106.03158" target="_blank" rel="noopener">arXiv</a><a href="https://github.com/rishabh2301/tasty-procedural-video" target="_blank" rel="noopener">Code</a><span>Nov 2022</span></div>
+        </div>
+      </article>
+      <article class="pub" style="--c: var(--peach)">
+        <div class="v">PATENT<span>2023</span></div>
+        <div class="b">
+          <h2><a href="https://patents.google.com/patent/US11681671B2" target="_blank" rel="noopener">Automatic Tuning of Thresholds and Weights for Pair Analysis in a Master Data Management System</a></h2>
+          <div class="links"><a href="https://patents.google.com/patent/US11681671B2" target="_blank" rel="noopener">US 11,681,671 B2</a><span>USPTO · Jun 2023</span></div>
+        </div>
+      </article>
+      <article class="pub" style="--c: var(--lemon)">
+        <div class="v">PATENT<span>2022</span></div>
+        <div class="b">
+          <h2><a href="https://patents.google.com/patent/US20220035777A1" target="_blank" rel="noopener">Pair Selection for Entity Resolution Analysis</a></h2>
+          <div class="links"><a href="https://patents.google.com/patent/US20220035777A1" target="_blank" rel="noopener">US 2022/0035777 A1</a><span>USPTO · Feb 2022</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="page" data-page="skills" hidden style="--c: var(--peach)">
+    <div class="ph"><h1>Skills</h1><p>// from kernels to production serving</p></div>
+    <div class="skill-grid">
+      <div class="sk" style="--c: var(--sky)"><h2>LLMs &amp; training</h2><div class="tags"><span class="tag">Pretraining</span><span class="tag">Fine-tuning</span><span class="tag">Triton</span><span class="tag">LoRA / PEFT</span><span class="tag">TRL</span></div></div>
+      <div class="sk" style="--c: var(--lilac)"><h2>Audio &amp; speech</h2><div class="tags"><span class="tag">Audio-language models</span><span class="tag">Speech</span><span class="tag">Whisper</span></div></div>
+      <div class="sk" style="--c: var(--lemon)"><h2>Frameworks</h2><div class="tags"><span class="tag">PyTorch</span><span class="tag">Triton</span><span class="tag">Transformers</span><span class="tag">Datasets</span><span class="tag">Accelerate</span><span class="tag">TensorFlow</span><span class="tag">PySpark</span><span class="tag">scikit-learn</span></div></div>
+      <div class="sk" style="--c: var(--peach)"><h2>Search &amp; ranking</h2><div class="tags"><span class="tag">Intent classification</span><span class="tag">Learning to rank</span><span class="tag">Siamese retrieval</span><span class="tag">A/B testing</span><span class="tag">Elasticsearch</span></div></div>
+      <div class="sk" style="--c: var(--lilac)"><h2>Serving &amp; MLOps</h2><div class="tags"><span class="tag">TensorFlow Serving</span><span class="tag">Seldon</span><span class="tag">FastAPI</span><span class="tag">Flask</span><span class="tag">Docker</span><span class="tag">Grafana</span></div></div>
+      <div class="sk" style="--c: var(--sky)"><h2>Languages &amp; platforms</h2><div class="tags"><span class="tag">Python</span><span class="tag">C++</span><span class="tag">Scala</span><span class="tag">SQL</span><span class="tag">R</span><span class="tag">AWS</span><span class="tag">GCP</span><span class="tag">Databricks</span><span class="tag">Redis</span><span class="tag">Snowflake</span></div></div>
+    </div>
+    <div class="sec-label">Open-source code</div>
+    <div class="repos">
+      <a class="repo" href="https://github.com/rishabh2301/triton-llm-kernels" target="_blank" rel="noopener"><span class="rn">triton-llm-kernels</span><span class="rl">Python · Triton</span><p class="rd">RMSNorm and SwiGLU kernels in Triton, forward and backward.</p></a>
+      <a class="repo" href="https://github.com/rishabh2301/tasty-procedural-video" target="_blank" rel="noopener"><span class="rn">tasty-procedural-video</span><span class="rl">Python · PyTorch</span><p class="rd">Research code behind the TPAMI paper: video features, S2VT captioning, NN-Viterbi segmentation.</p></a>
+      <a class="repo" href="https://github.com/rishabh2301/multilevel-imputation-school-wellbeing" target="_blank" rel="noopener"><span class="rn">multilevel-imputation-school-wellbeing</span><span class="rl">R</span><p class="rd">Multilevel multiple imputation and linear mixed-effects models.</p></a>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="page" data-page="education" hidden style="--c: var(--sky)">
+    <div class="ph"><h1>Education</h1><p>// 2015 → 2020</p></div>
+    <div class="edu" style="--c: var(--sky)">
+      <div class="l">
+        <h2><a href="https://www.iitism.ac.in/" target="_blank" rel="noopener">Indian Institute of Technology Dhanbad</a></h2>
+        <p class="deg">Integrated M.Tech · Mathematics and Computing · Jul 2015 – Jun 2020</p>
+        <ul>
+          <li>Graduated with distinction, rank 3</li>
+          <li>Academic Excellence Award, top 2 in academics for three consecutive years</li>
+          <li>Merit-cum-Means Scholarship, Government of India</li>
+          <li>Research internships at NUS (2019) and the University of Manitoba (2018)</li>
+        </ul>
+      </div>
+      <div class="r"><div class="gpa">9.19<small>/10</small></div><div class="cap">CGPA</div></div>
+    </div>
+  </section>
+
+  <!-- HONORS -->
+  <section class="page" data-page="honors" hidden style="--c: var(--lemon)">
+    <div class="ph"><h1>Honors</h1><p>// awards, selections and ranks</p></div>
+    <ul class="honors">
+      <li style="--c: var(--lemon)"><span class="y">2023</span><span class="t"><b>Most Valuable Player Award</b><span><a href="https://www.swiggy.com/" target="_blank" rel="noopener">Swiggy</a></span></span></li>
+      <li style="--c: var(--sky)"><span class="y">2018</span><span class="t"><b><a href="https://www.mitacs.ca/our-programs/globalink-research-internship-students/" target="_blank" rel="noopener">Mitacs Globalink Research Internship</a></b><span>Selected in the top 800 of 10,000 applicants from 10 countries</span></span></li>
+      <li style="--c: var(--lilac)"><span class="y">2017–19</span><span class="t"><b>Academic Excellence Award, IIT Dhanbad</b><span>Top 2 in academics for three consecutive years</span></span></li>
+      <li style="--c: var(--peach)"><span class="y">2015–20</span><span class="t"><b>Merit-cum-Means Scholarship</b><span>Awarded to the top 25% of IIT students by the Government of India</span></span></li>
+      <li style="--c: var(--lemon)"><span class="y">2015</span><span class="t"><b>JEE Advanced, All India Rank 5035</b><span>Among 124,741 candidates</span></span></li>
+      <li style="--c: var(--sky)"><span class="y">2015</span><span class="t"><b>JEE Main, All India Rank 6585</b><span>Among 1.3 million candidates</span></span></li>
+      <li style="--c: var(--lilac)"><span class="y">2015</span><span class="t"><b>WBJEE, State Rank 224</b><span>Among 105,000 candidates</span></span></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="fl">
+      <a href="mailto:rishabhsaraf.iit@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14"/><path d="M3 6l9 7 9-7"/></svg>Email</a>
+      <a href="https://www.linkedin.com/in/rishabh2301/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="9" width="4" height="12"/><circle cx="5" cy="4.8" r="2.2"/><path d="M10 9h3.8v1.8c.6-1.1 2-2.1 4-2.1 3.1 0 4.2 1.9 4.2 5.1V21h-4v-6.3c0-1.5-.4-2.6-1.8-2.6s-2.2 1-2.2 2.6V21h-4z"/></svg>LinkedIn</a>
+      <a href="https://github.com/rishabh2301" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+      <a href="https://scholar.google.com/citations?user=HRHD7_EAAAAJ&amp;hl=en" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 10l11 7 9-5.7V17h2v-7z"/><path d="M6 14.2V18c0 1.7 2.7 3 6 3s6-1.3 6-3v-3.8l-6 3.8z"/></svg>Scholar</a>
+    </div>
+    <span class="mail">rishabhsaraf.iit@gmail.com</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var pages = document.querySelectorAll('[data-page]');
+    var tabs = document.querySelectorAll('.tabs a');
+    var valid = {}; pages.forEach(function (p) { valid[p.dataset.page] = true; });
+    function show(name, push) {
+      if (!valid[name]) name = 'home';
+      pages.forEach(function (p) { p.hidden = p.dataset.page !== name; });
+      tabs.forEach(function (t) {
+        if (t.dataset.tab === name) { t.setAttribute('aria-current', 'page'); t.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }
+        else t.removeAttribute('aria-current');
+      });
+      if (push) { try { history.replaceState(null, '', '#' + name); } catch (e) {} }
+      window.scrollTo(0, 0);
+    }
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a[data-tab]');
+      if (!a) return;
+      e.preventDefault();
+      show(a.dataset.tab, true);
+    });
+    window.addEventListener('hashchange', function () { show(location.hash.slice(1), false); });
+    show(location.hash.slice(1), false);
+    var img = document.querySelector('#photo img');
+    if (img && img.complete && img.naturalWidth === 0) img.parentNode.classList.add('noimg');
+  })();
+</script>
+</body>
+</html>
